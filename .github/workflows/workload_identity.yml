@@ -1,0 +1,28 @@
+name: GitHub Actions Workload Identity Demo
+on:
+  pull_request:
+
+jobs:
+  List-Buckets:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - id: auth
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          workload_identity_provider: projects/766712485593/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: github-actions@jenkins-389117.iam.gserviceaccount.com
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0
+
+      - name: List buckets
+        run: gcloud storage ls
