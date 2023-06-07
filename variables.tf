@@ -1,4 +1,4 @@
-variable "gcp_project" {
+variable "gcp_project_id" {
   type        = string
   description = "Google project id"
   default     = "jenkins-389117"
