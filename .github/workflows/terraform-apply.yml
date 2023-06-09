@@ -45,7 +45,7 @@ jobs:
       name: approvers
     runs-on: ubuntu-latest
     steps:
-    - name: manual approve
+    - name: press to approve
       run: |
           echo "Manually approved"
 
@@ -79,3 +79,4 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply tfplan
+        working-directory: ${{ github.workspace }}
