@@ -1,9 +1,14 @@
-name: GitHub Actions Workload Identity Demo
+name: Terraform Pipeline
+
 on:
   pull_request:
 
+env:
+  TERRAFORM_VERSION: 1.4.6
+
 jobs:
-  List-Buckets:
+  format_lint_validate:
+    name: Format, Lint, and Validate
     runs-on: ubuntu-latest
 
     permissions:
@@ -11,7 +16,7 @@ jobs:
       id-token: write
 
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
       - id: auth
@@ -21,8 +26,45 @@ jobs:
           workload_identity_provider: projects/766712485593/locations/global/workloadIdentityPools/github-pool/providers/github-provider
           service_account: github-actions@jenkins-389117.iam.gserviceaccount.com
 
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
 
-      - name: List buckets
-        run: gcloud storage ls
+      - name: Terraform Format
+        run: terraform fmt -recursive -check
+
+      - name: Terraform Lint
+        run: terraform fmt -recursive -diff -check
+
+      - name: Terraform Validate
+        run: terraform validate
+
+  plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - id: auth
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          workload_identity_provider: projects/766712485593/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: github-actions@jenkins-389117.iam.gserviceaccount.com
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - name: Terraform Plan
+        run: terraform plan
+
+  
