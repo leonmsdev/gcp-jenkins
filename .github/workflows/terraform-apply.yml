@@ -19,17 +19,17 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - id: auth
         name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v0
+        uses: google-github-actions/auth@v1
         with:
           workload_identity_provider: projects/766712485593/locations/global/workloadIdentityPools/github-pool/providers/github-provider
           service_account: github-actions@jenkins-389117.iam.gserviceaccount.com
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
 
@@ -39,26 +39,17 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -out=tfplan
 
+      - run: ls -R
+
       - name: Publish Terraform Plan
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: terraform-plan
           path: tfplan
 
-  manual-approve:
-    needs: plan
-    environment:
-      name: approvers
-    runs-on: ubuntu-latest
-    steps:
-    - name: press to approve
-      run: |
-          echo "Manually approved"
-
   apply:
     name: Terraform apply
     runs-on: ubuntu-latest
-    needs: manual-approve
 
     permissions:
       contents: read
@@ -66,23 +57,23 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download Terraform Plan
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: terraform-plan
           path: tfplan
 
       - id: auth
         name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v0
+        uses: google-github-actions/auth@@v1
         with:
           workload_identity_provider: projects/766712485593/locations/global/workloadIdentityPools/github-pool/providers/github-provider
           service_account: github-actions@jenkins-389117.iam.gserviceaccount.com
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
 
@@ -90,4 +81,4 @@ jobs:
         run: terraform init
 
       - name: Terraform Apply
-        run: terraform apply tfplan
+        run: terraform apply -auto-approve tfplan
