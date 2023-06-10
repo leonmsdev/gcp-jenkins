@@ -37,7 +37,7 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan -out=plan.tfplan
 
       - run: ls -R
       - run: pwd
@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: terraform-plan
-          path: tfplan
+          path: plan.tfplan
 
   apply:
     name: Terraform apply
@@ -65,7 +65,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: terraform-plan
-          path: tfplan
+          path: plan.tfplan
 
       - id: auth
         name: Authenticate to Google Cloud
@@ -86,4 +86,4 @@ jobs:
       - run: pwd
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve plan.tfplan
