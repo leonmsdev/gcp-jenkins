@@ -62,7 +62,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: output.tfplan
-          path: /home/runner/work/gcp-jenkins/gcp-jenkins/output.tfplan
+          path: /home/runner/work/gcp-jenkins/gcp-jenkins/
 
       - run: ls -lah
 
@@ -82,6 +82,8 @@ jobs:
         run: terraform init
 
       - run: ls -d */
+      - run: ls -lah
 
       - name: Terraform Apply
         run: terraform apply -auto-approve /home/runner/work/gcp-jenkins/gcp-jenkins/output.tfplan
+        
