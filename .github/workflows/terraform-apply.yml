@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: tfplan
-          path: /home/runner/work/gcp-jenkins/gcp-jenkins/
+          path: /home/runner/work/gcp-jenkins/gcp-jenkins/tfplan
 
       - run: ls -lah
 
@@ -64,7 +64,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: tfplan
-          path: /home/runner/work/gcp-jenkins/gcp-jenkins/
+          path: /home/runner/work/gcp-jenkins/gcp-jenkins/tfplan
 
       - run: ls -lah
 
