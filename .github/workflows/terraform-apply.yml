@@ -81,5 +81,7 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - run: ls -d */
+
       - name: Terraform Apply
-        run: terraform apply -auto-approve output.tfplan
+        run: terraform apply -auto-approve /home/runner/work/gcp-jenkins/gcp-jenkins/output.tfplan
