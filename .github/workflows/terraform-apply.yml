@@ -46,7 +46,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: terraform-plan
-          path: plan.tfplan
+          path: plan
+
+      - run: cd ./plan && ls -lah
 
   apply:
     name: Terraform apply
@@ -86,4 +88,4 @@ jobs:
       - run: pwd
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve plan.tfplan
+        run: terraform apply -auto-approve plan
