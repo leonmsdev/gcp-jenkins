@@ -24,7 +24,7 @@ resource "google_container_cluster" "leonms_web" {
   }
 
   workload_identity_config {
-    workload_pool = format("%s.svc.id.goog",  var.gcp_project_id)
+    workload_pool = format("%s.svc.id.goog", var.gcp_project_id)
   }
 
   ip_allocation_policy {
