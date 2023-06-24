@@ -9,9 +9,6 @@ resource "google_container_cluster" "worker_cluster" {
 
   remove_default_node_pool = true
   initial_node_count       = 1
-
-  disk_type = "pd-standard"
-  disk_size = 75
 }
 
 resource "google_container_node_pool" "worker_spot_nodes" {
@@ -23,6 +20,9 @@ resource "google_container_node_pool" "worker_spot_nodes" {
   node_config {
     preemptible  = true
     machine_type = "e2-medium"
+
+    disk_type = "pd-standard"
+    disk_size = 75
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     service_account = google_service_account.worker_cluster_sa.email
