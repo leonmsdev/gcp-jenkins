@@ -4,10 +4,10 @@ resource "google_service_account" "kubernets" {
 
 resource "google_container_node_pool" "main_workload" {
   name       = "main_workload"
-  cluster    = google_container_cluster.leonms_web.id
+  cluster    = google_container_cluster.worker_cluster.id
   node_count = 1
 
-  depends_on = [google_container_cluster.leonms_web]
+  depends_on = [google_container_cluster.worker_cluster]
 
   management {
     auto_repair  = true

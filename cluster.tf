@@ -1,4 +1,4 @@
-resource "google_container_cluster" "leonms_web" {
+resource "google_container_cluster" "worker_cluster" {
   provider                 = google-beta
   name                     = "worker-cluster"
   location                 = "europe-west4-b"
