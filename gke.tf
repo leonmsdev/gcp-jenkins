@@ -21,7 +21,7 @@ resource "google_container_node_pool" "worker_spot_nodes" {
     preemptible  = true
     machine_type = "e2-medium"
 
-    disk_type = "pd-standard"
+    disk_type    = "pd-standard"
     disk_size_gb = 75
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
