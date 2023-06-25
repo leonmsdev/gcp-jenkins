@@ -5,7 +5,7 @@ terraform {
       version = "4.70.0"
     }
     google-beta = {
-      source  = "hashicorp/google"
+      source  = "hashicorp/google-beta"
       version = "~> 4.0"
     }
     helm = {
@@ -36,7 +36,6 @@ provider "google-beta" {
 }
 
 provider "helm" {
-
 }
 
 provider "kubernetes" {
