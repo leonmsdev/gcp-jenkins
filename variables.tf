@@ -15,3 +15,9 @@ variable "gcp_zone" {
   description = "Google project zone"
   default     = "europe-west4-a"
 }
+
+variable "kube_config" {
+  type = string
+  description = "Path to kubernetes config file."
+  default = "~/.kube/config"
+}
