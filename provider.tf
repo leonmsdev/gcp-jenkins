@@ -36,19 +36,19 @@ provider "google-beta" {
 }
 
 provider "helm" {
-  host = format("https://%s", google_container_cluster.worker_cluster.endpoint)
+  host                   = format("https://%s", google_container_cluster.worker_cluster.endpoint)
   cluster_ca_certificate = base64decode(google_container_cluster.worker_cluster.master_auth.0.cluster_ca_certificate)
-  token = data.google_client_config.executor.access_token
+  token                  = data.google_client_config.executor.access_token
 }
 
 provider "kubernetes" {
-  host = format("https://%s", google_container_cluster.worker_cluster.endpoint)
+  host                   = format("https://%s", google_container_cluster.worker_cluster.endpoint)
   cluster_ca_certificate = base64decode(google_container_cluster.worker_cluster.master_auth.0.cluster_ca_certificate)
-  token = data.google_client_config.executor.access_token
+  token                  = data.google_client_config.executor.access_token
 }
 
 provider "kubernetes-alpha" {
-  host = format("https://%s", google_container_cluster.worker_cluster.endpoint)
+  host                   = format("https://%s", google_container_cluster.worker_cluster.endpoint)
   cluster_ca_certificate = base64decode(google_container_cluster.worker_cluster.master_auth.0.cluster_ca_certificate)
-  token = data.google_client_config.executor.access_token
+  token                  = data.google_client_config.executor.access_token
 }
