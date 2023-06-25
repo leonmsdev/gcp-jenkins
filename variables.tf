@@ -17,7 +17,7 @@ variable "gcp_zone" {
 }
 
 variable "kube_config" {
-  type = string
+  type        = string
   description = "Path to kubernetes config file."
-  default = "~/.kube/config"
+  default     = "~/.kube/config"
 }
