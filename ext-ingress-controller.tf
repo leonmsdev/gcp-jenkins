@@ -2,6 +2,7 @@ resource "kubernetes_namespace" "ext_ingress_nginx" {
   metadata {
     name = "ext-nginx-ingress"
   }
+  depends_on = [google_container_node_pool.main_workload]
 }
 
 resource "helm_release" "ext_ingress_nginx" {
@@ -14,4 +15,6 @@ resource "helm_release" "ext_ingress_nginx" {
   values = [
     file("${path.module}/configs/ext-nginx-values.yml")
   ]
+
+  depends_on = [google_container_node_pool.main_workload]
 }
