@@ -3,7 +3,7 @@ resource "google_service_account" "kubernets" {
 }
 
 resource "google_container_node_pool" "main_workload" {
-  name       = "main_workload"
+  name       = "main-workload"
   cluster    = google_container_cluster.worker_cluster.id
   node_count = 1
 
