@@ -16,7 +16,7 @@ resource "google_container_node_pool" "main_workload" {
 
   node_config {
     preemptible  = true
-    machine_type = "e2-medium"
+    machine_type = "e2-standard-2"
     disk_size_gb = 75
     disk_type    = "pd-standard"
 
