@@ -49,7 +49,7 @@ cluster_autoscaling {
     resource_limits {
       resource_type = "memory"
       minimum = 1
-      maximum = 4
+      maximum = 8
     }
   }
 
