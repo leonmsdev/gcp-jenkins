@@ -38,18 +38,18 @@ resource "google_container_cluster" "worker_cluster" {
     master_ipv4_cidr_block  = "172.16.0.0/28"
   }
 
-cluster_autoscaling {
-    enabled = true
+  cluster_autoscaling {
+    enabled             = true
     autoscaling_profile = "OPTIMIZE_UTILIZATION"
     resource_limits {
       resource_type = "cpu"
-      minimum = 1
-      maximum = 2
+      minimum       = 1
+      maximum       = 2
     }
     resource_limits {
       resource_type = "memory"
-      minimum = 1
-      maximum = 8
+      minimum       = 1
+      maximum       = 8
     }
   }
 
