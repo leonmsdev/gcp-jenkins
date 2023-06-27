@@ -11,3 +11,25 @@ resource "helm_release" "kube-prometheus" {
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
 }
+
+# resource "kubernetes_ingress" "grafana" {
+#   metadata {
+#     name = "grafana-ingress"
+#     namespace = kubernetes_namespace.prometheus.metadata[0].name
+#   }
+
+#   spec {
+#     rule {
+#       host = local.dns_name
+#       http {
+#         path {
+#           backend {
+#             service_name = "kube-prometheus-stack-grafana"
+#             service_port = 80
+#           }
+#           path = "/"
+#         }
+#       }
+#     }
+#   }
+# }
