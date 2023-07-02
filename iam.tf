@@ -14,11 +14,10 @@ resource "google_project_iam_policy" "gcp_project_iam" {
 data "google_iam_policy" "google_iam" {
   dynamic "binding" {
     for_each = local.gcp_bindings
-    binding {
-      content {
-        role    = each.key
-        members = each.value
-      }
+
+    content {
+      role    = each.key
+      members = each.value
     }
   }
 }
