@@ -8,10 +8,10 @@ locals {
 
 resource "google_project_iam_policy" "gcp_project_iam" {
   project     = var.gcp_project_id
-  policy_data = data.google_iam_policy.google_iam.policy_data
+  policy_data = data.google_iam_policy.iam.policy_data
 }
 
-data "google_iam_policy" "google_iam" {
+data "google_iam_policy" "iam" {
   dynamic "binding" {
     for_each = local.gcp_bindings
 
