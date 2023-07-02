@@ -1,0 +1,388 @@
+image:
+  # -- Image to use for deploying
+  repository: docker.io/andrcuns/dependabot-gitlab
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
+  # -- Image tag
+  tag: ""
+  # -- Image pull secrets specification
+  imagePullSecrets: []
+
+# -- Override chart name
+nameOverride: ""
+# -- Override fully qualified app name
+fullnameOverride: ""
+
+serviceAccount:
+  # -- Create service account
+  create: true
+  # -- Service account name
+  name: ""
+  # -- Automount service account token
+  automountServiceAccountToken: true
+  # -- Service account annotations
+  annotations: {}
+
+service:
+  # -- Service type
+  type: ClusterIP
+  # -- Service pot
+  port: 3000
+  # -- Service annotations
+  annotations: {}
+
+ingress:
+  # -- Enable ingress
+  enabled: false
+  # Additional ingress annotations
+  annotations: {}
+  # Ingress hosts definition
+  hosts: []
+  # Ingress tls
+  tls: []
+  # Ingress class name
+  className: ""
+  # -- The ingress pathType to use
+  pathType: "ImplementationSpecific"
+
+# -- Security Context
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+metrics:
+  # -- Enable metrics endpoint for prometheus
+  enabled: false
+  # -- Worker metrics web server port
+  workerPort: 9394
+  service:
+    # -- Metrics service type
+    type: ClusterIP
+    # -- Annotations to add to the metrics service
+    annotations: {}
+  serviceMonitor:
+    # -- Enable serviceMonitor
+    enabled: false
+    # -- Additional labels that can be used so ServiceMonitor resource(s) can be discovered by Prometheus
+    additionalLabels: {}
+    # -- Metrics scrape interval
+    scrapeInterval: 30s
+    # -- Metrics RelabelConfigs to apply to samples before scraping
+    relabellings: []
+    # -- Metrics RelabelConfigs to apply to samples before ingestion
+    metricRelabelings: []
+    # -- Specify honorLabels parameter to add the scrape endpoint
+    honorLabels: false
+
+# Component hosting web server
+#
+web:
+  # -- Maximum web server threads
+  maxConcurrency: 5
+  # -- Minimum web server threads
+  minConcurrency: 5
+  # -- Pod label
+  podLabels: {}
+  # -- Pod annotations
+  podAnnotations: {}
+  # -- Annotations to add to the Deployment
+  deploymentAnnotations: {}
+  # -- Node selectors
+  nodeSelector: {}
+  # -- Tolerations
+  tolerations: []
+  # -- Affinity
+  affinity: {}
+  # -- Web container replicas count
+  replicaCount: 1
+  # -- Web container resource definitions
+  resources: {}
+  # -- Set up strategy for web installation
+  updateStrategy:
+    type: RollingUpdate
+  livenessProbe:
+    # -- Enable liveness probe
+    enabled: true
+    # -- Liveness probe failure threshold
+    failureThreshold: 5
+    # -- Liveness probe period
+    periodSeconds: 10
+    # -- Liveness probe timeout
+    timeoutSeconds: 2
+  startupProbe:
+    # -- Enable startup probe
+    enabled: true
+    # -- Startup probe initial delay
+    initialDelaySeconds: 10
+    # -- Startup probe failure threshold
+    failureThreshold: 12
+    # -- Startup probe period
+    periodSeconds: 10
+    # -- Startup probe timeout
+    timeoutSeconds: 3
+  # -- Extra volumeMounts for the pods
+  extraVolumeMounts: []
+  # -- Extra volumes
+  extraVolumes: []
+  # -- Extra environment variables
+  extraEnvVars: []
+
+# Component responsible for backend tasks and updater job scheduling
+#
+worker:
+  # -- Maximum concurrency, https://github.com/mperham/sidekiq/wiki/Advanced-Options#concurrency
+  maxConcurrency: 10
+  # -- Pod label
+  podLabels: {}
+  # -- Pod annotations
+  podAnnotations: {}
+  # -- Annotations to add to the Deployment
+  deploymentAnnotations: {}
+  # -- Node selectors
+  nodeSelector: {}
+  # -- Tolerations
+  tolerations: []
+  # -- Affinity
+  affinity: {}
+  # -- Pod host aliases
+  hostAliases: []
+  # -- Worker container replicas count
+  replicaCount: 1
+  # -- Worker container resource definitions
+  resources: {}
+  # -- Health check probe port
+  probePort: 7433
+  # -- Set up strategy for worker installation
+  updateStrategy:
+    type: RollingUpdate
+  livenessProbe:
+    # -- Enable liveness probe
+    enabled: true
+    # -- Liveness probe failure threshold
+    failureThreshold: 2
+    # -- Liveness probe period
+    periodSeconds: 120
+    # -- Liveness probe timeout
+    timeoutSeconds: 3
+  startupProbe:
+    # -- Enable startup probe
+    enabled: true
+    # -- Startup probe initial delay
+    initialDelaySeconds: 10
+    # -- Startup probe failure threshold
+    failureThreshold: 12
+    # -- Startup probe period
+    periodSeconds: 5
+    # -- Startup probe timeout
+    timeoutSeconds: 3
+  # -- Extra volumeMounts for the worker pod
+  # This can be used for a netrc by mounting a secret at `/home/dependabot/.netrc`.
+  # This can be used for various package managers such as gomod
+  extraVolumeMounts: []
+  # -- Extra volumes
+  extraVolumes: []
+  # -- Extra environment variables
+  extraEnvVars: []
+
+# Component responsible for running dependency updates
+#
+updater:
+  # -- Custom updater image pattern, see `SETTINGS__UPDATER_IMAGE_PATTERN` in https://dependabot-gitlab.gitlab.io/dependabot/config/environment.html#service
+  imagePattern: ""
+  # -- Pod label
+  podLabels: {}
+  # -- Pod annotations
+  podAnnotations: {}
+  # -- Node selectors
+  nodeSelector: {}
+  # -- Tolerations
+  tolerations: []
+  # -- Affinity
+  affinity: {}
+  # -- Pod host aliases
+  hostAliases: []
+  # -- Updater container resource definitions
+  resources: {}
+  # -- Extra volumeMounts for the updater pod
+  # This can be used for a netrc by mounting a secret at `/home/dependabot/.netrc`.
+  # This can be used for various package managers such as gomod
+  extraVolumeMounts: []
+  # -- Extra volumes
+  extraVolumes: []
+  # -- Extra environment variables
+  extraEnvVars: []
+  # -- Delete updater pod after completion
+  deleteContainer: true
+  # -- Time to wait for updater container to start before it is considered failed and pod is terminated
+  startupDeadlineSeconds: 180
+  # -- Maximum update run time after which pod is terminated
+  activeDeadlineSeconds: 0
+  # -- Post start lifecycle hook
+  lifecycle: {}
+
+createProjectsJob:
+  # -- Job Back off limit
+  backoffLimit: 1
+  # -- Job Active Deadline
+  activeDeadlineSeconds: 240
+  # -- Create projects job resource definitions
+  resources: {}
+  # -- Enable automatic cleanup after job finished
+  enableCleanup: true
+  # -- Job ttl value
+  ttlSecondsAfterFinished: 3600
+
+migrationJob:
+  # -- Job Back off limit
+  backoffLimit: 4
+  # -- Job Active Deadline
+  activeDeadlineSeconds: 300
+  # -- Migration job resource definitions
+  resources: {}
+  # -- Enable automatic cleanup after job finished
+  enableCleanup: true
+  # -- Job ttl value
+  ttlSecondsAfterFinished: 3600
+  # -- Pod annotations
+  podAnnotations: {}
+
+migrationJobInitContainer:
+  # -- Migration job init container resource definitions
+  resources: {}
+  
+migrationsWaitContainer:
+  # -- Migrations wait container resource definitions
+  resources: {}
+  
+redisWaitContainer:
+  # -- Redis wait container resource definitions
+  resources: {}    
+
+env:
+  # -- Redis URL
+  redisUrl: ""
+  # Timeout for redis connection configuration
+  redisTimeout: 1
+  # -- MongoDB URL
+  mongoDbUrl: ""
+  # -- MongoDB URI
+  mongoDbUri: ""
+  # -- Gitlab instance URL
+  gitlabUrl: https://gitlab.com
+  # -- Optional sentry dsn for error reporting
+  sentryDsn: ""
+  # -- Sentry traces sample rate
+  sentryTracesSampleRate: ""
+  # -- Sentry ignored error list
+  sentryIgnoredErrors: []
+  # -- Optional app url, used for automated webhook creation
+  dependabotUrl: ""
+  # -- Enable/disable project hook creation
+  createProjectHook: true
+  # -- Configuration path
+  appConfigPath: kube/config
+  # -- App root
+  appRootPath: /home/dependabot/app
+  # -- Dependabot comment command prefix
+  commandsPrefix: ""
+  # -- Update job retry count or 'false' to disable
+  updateRetry: 2
+  # -- Purge update run logs from database after configured time in seconds
+  expireRunData: 2629746
+  # -- App log level
+  logLevel: "info"
+  # -- Enhanced colorized log messages
+  logColor: false
+  # -- Enable upstream https proxy
+  https_proxy: ""
+  # -- Enable upstream http proxy
+  http_proxy: ""
+  # -- Set proxy exceptions
+  no_proxy: ""
+
+auth:
+  # -- Enable authentication
+  enabled: false
+
+credentials:
+  # -- Gitlab access token, required
+  gitlab_access_token: "glpat-UfhYzvFSfzp1KZ6GHb5W"
+  # -- Github access token
+  github_access_token: "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"
+  # -- Gitlab auth token for webhook authentication
+  gitlab_auth_token: ""
+  # -- app key base used for credentials encryption
+  secretKeyBase: key
+  # -- dependabot chart: set a secret name here if you want to manage secrets on your own
+  # required keys: [SETTINGS__GITLAB_ACCESS_TOKEN, SECRET_KEY_BASE], optional: [SETTINGS__GITHUB_ACCESS_TOKEN, SETTINGS__GITLAB_AUTH_TOKEN],
+  # if `redis.enabled` and `mongodb.enabled` set to false, REDIS_PASSWORD and MONGODB_PASSWORD or MONGODB_URI must be present
+  existingSecret: ""
+
+# -- Credentials for private registries
+# Example: PRIVATE_DOCKERHUB_TOKEN: token
+registriesCredentials:
+  # -- set a secret name here if you want to manage registries credentials on your own
+  existingSecret: ""
+
+project_registration:
+  # -- Project registration mode
+  mode: "manual"
+  # -- Cron expression of project registration cron job
+  cron: ""
+  # -- Allowed namespace expression for projects to register, *deprecated*
+  namespace: ""
+  # -- Pattern for allowed projects full path name
+  allow_pattern: ""
+  # -- Pattern for ignored projects full path name
+  ignore_pattern: ""
+
+# -- List of projects to create/update on deployment
+projects: []
+
+# -- Base dependabot configuration yml, see: https://gitlab.com/dependabot-gitlab/dependabot#base-configuration-file
+baseConfiguration:
+  # -- Set a secret name here if you want to manage base configuration on your own
+  # existing secret must define single key 'dependabot-base.yml' and configuration as yml string as it's value
+  existingSecret: ""
+
+# ref: https://github.com/bitnami/charts/tree/master/bitnami/redis
+redis:
+  # -- Enable redis installation
+  enabled: true
+  # -- Redis architecture. Allowed values: `standalone` or `replication`
+  architecture: standalone
+  auth:
+    # -- Enable authentication
+    enabled: true
+    # -- Redis password
+    password: "RedisPW123!"
+    # -- Redis name of an existing secret to be used (optional, will ignore other password setting when used)
+    existingSecret: ""
+    # -- Redis name of the key in the existing secret where the password is stored (optional, will only be used when existingSecret is set)
+    existingSecretPasswordKey: ""
+
+# ref: https://github.com/bitnami/charts/tree/master/bitnami/mongodb
+mongodb:
+  # -- Enable mongodb installation
+  enabled: true
+  auth:
+    # -- Enable authentication
+    enabled: true
+    # -- MongoDB custom database
+    databases: ["dependabot-gitlab"]
+    # -- MongoDB custom user username
+    usernames: ["dependabot-gitlab"]
+    # -- MongoDB custom user passwords
+    passwords: ["MongoDB123!"]
+    # -- MongoDB name of an existing secret to be used (optional, will ignore other password setting when used)
+    existingSecret: ""
+    # -- MongoDB name of the key in the existing secret where the password is stored (optional, will only be used when existingSecret is set)
+    existingSecretPasswordKey: ""
+  updateStrategy:
+    # -- Deploy strategy
+    type: Recreate
+  service:
+    ports:
+      # -- Mongodb service port
+      mongodb: 27017
