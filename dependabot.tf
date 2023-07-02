@@ -35,6 +35,6 @@ resource "kubernetes_secret" "dependabot_gitlab_access_token_secret" {
   }
 
   data = {
-    format("%s", each.value[2]) = format("data.google_secret_manager_secret_version.dependabot_secrets[%s].secret_data", each.value[0]) 
+    format("%s", each.value[2]) = format("data.google_secret_manager_secret_version.dependabot_secrets[%s].secret_data", each.value[0])
   }
 }
