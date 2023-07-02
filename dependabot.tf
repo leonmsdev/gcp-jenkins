@@ -1,6 +1,6 @@
 import {
-    to = kubernetes_namespace.dependabot
-    id = random_integer.import_id.result
+  to = kubernetes_namespace.dependabot
+  id = random_integer.import_id.result
 }
 
 resource "random_integer" "import_id" {
