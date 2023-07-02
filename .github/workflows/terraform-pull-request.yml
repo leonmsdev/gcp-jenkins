@@ -4,7 +4,7 @@ on:
   pull_request:
 
 env:
-  TERRAFORM_VERSION: 1.4.6
+  TERRAFORM_VERSION: 1.5.2
 
 jobs:
   format_lint_validate:
