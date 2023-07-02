@@ -10,7 +10,7 @@ resource "google_service_account" "secret_manager_sa" {
 
 resource "google_secret_manager_secret" "admin-password" {
   #  provider = google-beta
-  depends_on = [google_project_service.google_project_service.secret_manager]
+  depends_on = [google_project_service.secret_manager]
 
   secret_id = "dependabot-redis"
   replication {
