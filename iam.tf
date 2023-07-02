@@ -11,6 +11,10 @@ resource "google_project_iam_policy" "gcp_project_iam" {
   policy_data = data.google_iam_policy.iam.policy_data
 }
 
+output "name" {
+  value = data.google_iam_policy.iam.policy_data
+}
+
 data "google_iam_policy" "iam" {
   dynamic "binding" {
     for_each = local.gcp_bindings
