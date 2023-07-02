@@ -18,7 +18,7 @@ resource "google_service_account" "secret_manager_sa" {
 }
 
 resource "google_secret_manager_secret" "admin-password" {
-    for_each = local.secrets
+  for_each = local.secrets
   #  provider = google-beta
   depends_on = [google_project_service.secret_manager]
 
