@@ -18,11 +18,11 @@ resource "google_service_account" "secret_manager_sa" {
 }
 
 resource "google_secret_manager_secret" "admin-password" {
-  for_each = local.secrets
+  count = length(local.secrets)
   #  provider = google-beta
   depends_on = [google_project_service.secret_manager]
 
-  secret_id = each.value
+  secret_id = count.index
   replication {
     user_managed {
       replicas {
