@@ -17,7 +17,7 @@ resource "google_service_account" "secret_manager_sa" {
   display_name = "Secret Manager SA"
 }
 
-resource "google_secret_manager_secret" "admin-password" {
+resource "google_secret_manager_secret" "each_secret" {
   count = length(local.secrets)
   #  provider = google-beta
   depends_on = [google_project_service.secret_manager]
