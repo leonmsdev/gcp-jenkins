@@ -6,18 +6,11 @@ locals {
   }
 }
 
-resource "google_project_iam_policy" "gcp_project_iam" {
-  project     = var.gcp_project_id
-  policy_data = data.google_iam_policy.iam.policy_data
-}
+resource "google_project_iam_binding" "iam" {
+  for_each = local.gcp_bindings
 
-data "google_iam_policy" "iam" {
-  dynamic "binding" {
-    for_each = local.gcp_bindings
+  project = var.gcp_project_id
+  role    = each.key
 
-    content {
-      role    = binding.key
-      members = binding.value
-    }
-  }
+  members = each.value
 }
