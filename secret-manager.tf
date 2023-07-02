@@ -22,7 +22,7 @@ resource "google_secret_manager_secret" "each_secret" {
   #  provider = google-beta
   depends_on = [google_project_service.secret_manager]
 
-  secret_id = count.value
+  secret_id = local.secrets[count.index]
   replication {
     user_managed {
       replicas {
