@@ -12,4 +12,3 @@ resource "kubernetes_namespace" "dependabot" {
     name = "dependabot"
   }
 }
-
