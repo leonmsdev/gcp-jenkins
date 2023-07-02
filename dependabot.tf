@@ -11,8 +11,8 @@
 
 locals {
   dependabot_secrets = {
-    # Defines [0] index, [1] secret version, [2] the version to use and the kubernetes key name inside the secret.
-    "dependabot-gitlab-access-token" = [0, 1, "token"], # [0 , 1, 2] *The first index needs to be +1 if a new elemt gets added to the list.
+    # Defines 0 - index, 1 - secret version, 2 - the version to use and the kubernetes key name inside the secret.
+    "dependabot-gitlab-access-token" = [0, 1, "token"], # [0 , 1, 2] *The index needs to be +1 if a new secret gets added to the list.
     "dependabot-github-access-token" = [1, 1, "token"],
     "dependabot-mongodb-passwd"      = [2, 1, "passwd"],
     "dependabot-redis-passwd"        = [3, 1, "passwd"]
@@ -35,6 +35,6 @@ resource "kubernetes_secret" "dependabot_gitlab_access_token_secret" {
   }
 
   data = {
-    format("%s", each.value[2]) = data.google_secret_manager_secret_version.dependabot_secrets[tonumber(format("%s", each.value[0]))].secret_data
+    format("%s", each.value[2]) = format("data.google_secret_manager_secret_version.dependabot_secrets[%s].secret_data", each.value[0]) 
   }
 }
