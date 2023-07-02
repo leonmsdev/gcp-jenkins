@@ -8,7 +8,7 @@ locals {
 
 resource "google_project_iam_policy" "gcp_project_iam" {
   project     = var.gcp_project_id
-  policy_data = data.google_iam_policy.google_iam[each.key].policy_data
+  policy_data = data.google_iam_policy.google_iam.policy_data
 }
 
 data "google_iam_policy" "google_iam" {
