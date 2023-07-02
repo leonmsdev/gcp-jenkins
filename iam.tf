@@ -16,8 +16,8 @@ data "google_iam_policy" "google_iam" {
     for_each = local.gcp_bindings
 
     content {
-      role    = each.key
-      members = each.value
+      role    = binding.key
+      members = binding.value
     }
   }
 }
