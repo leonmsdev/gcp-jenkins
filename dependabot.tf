@@ -22,7 +22,7 @@ data "google_secret_manager_secret_version" "dependabot_secrets" {
   for_each = local.dependabot_secrets
   secret   = each.key
   project  = var.gcp_project_id
-  version  = each.value
+  version  = each.value[0]
 }
 
 resource "kubernetes_secret" "dependabot_gitlab_access_token_secret" {
