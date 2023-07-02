@@ -7,8 +7,8 @@ locals {
 }
 
 resource "google_project_iam_binding" "iam" {
-for_each = local.gcp_bindings
-  
+  for_each = local.gcp_bindings
+
   project = var.gcp_project_id
   role    = each.key
 
