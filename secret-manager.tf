@@ -4,6 +4,7 @@ locals {
     "dependabot-mongodb-passwd",
     "dependabot-gitlab-access-token",
     "dependabot-github-access-token",
+    "dependabot-redis-root-passwd",
   ]
 }
 
