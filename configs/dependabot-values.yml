@@ -307,9 +307,9 @@ auth:
 
 credentials:
   # -- Gitlab access token, required
-  gitlab_access_token: "glpat-UfhYzvFSfzp1KZ6GHb5W"
+  gitlab_access_token: ""
   # -- Github access token
-  github_access_token: "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"
+  github_access_token: ""
   # -- Gitlab auth token for webhook authentication
   gitlab_auth_token: ""
   # -- app key base used for credentials encryption
@@ -317,7 +317,7 @@ credentials:
   # -- dependabot chart: set a secret name here if you want to manage secrets on your own
   # required keys: [SETTINGS__GITLAB_ACCESS_TOKEN, SECRET_KEY_BASE], optional: [SETTINGS__GITHUB_ACCESS_TOKEN, SETTINGS__GITLAB_AUTH_TOKEN],
   # if `redis.enabled` and `mongodb.enabled` set to false, REDIS_PASSWORD and MONGODB_PASSWORD or MONGODB_URI must be present
-  existingSecret: ""
+  existingSecret: "depndabot-config-secrets"
 
 # -- Credentials for private registries
 # Example: PRIVATE_DOCKERHUB_TOKEN: token
@@ -356,11 +356,11 @@ redis:
     # -- Enable authentication
     enabled: true
     # -- Redis password
-    password: "RedisPW123!"
+    password: ""
     # -- Redis name of an existing secret to be used (optional, will ignore other password setting when used)
-    existingSecret: ""
+    existingSecret: "depndabot-config-secrets"
     # -- Redis name of the key in the existing secret where the password is stored (optional, will only be used when existingSecret is set)
-    existingSecretPasswordKey: ""
+    existingSecretPasswordKey: "REDIS_PASSWORD"
 
 # ref: https://github.com/bitnami/charts/tree/master/bitnami/mongodb
 mongodb:
@@ -374,11 +374,11 @@ mongodb:
     # -- MongoDB custom user username
     usernames: ["dependabot-gitlab"]
     # -- MongoDB custom user passwords
-    passwords: ["MongoDB123!"]
+    passwords: [""]
     # -- MongoDB name of an existing secret to be used (optional, will ignore other password setting when used)
-    existingSecret: ""
+    existingSecret: "depndabot-config-secrets"
     # -- MongoDB name of the key in the existing secret where the password is stored (optional, will only be used when existingSecret is set)
-    existingSecretPasswordKey: ""
+    existingSecretPasswordKey: "MONGODB_PASSWORD"
   updateStrategy:
     # -- Deploy strategy
     type: Recreate
