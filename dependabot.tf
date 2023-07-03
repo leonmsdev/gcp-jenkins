@@ -43,8 +43,28 @@ resource "kubernetes_secret" "dependabot_config_secrets" {
     SETTINGS__GITLAB_ACCESS_TOKEN = data.google_secret_manager_secret_version.dependabo_gitlab_access_token.secret_data,
     SETTINGS__GITHUB_ACCESS_TOKEN = data.google_secret_manager_secret_version.dependabo_github_access_token.secret_data,
     REDIS_PASSWORD                = data.google_secret_manager_secret_version.dependabot_redis_passwd.secret_data,
+    MONGODB_PASSWORD             = data.google_secret_manager_secret_version.dependabot_mongodb_passwd.secret_data
+  }
+}
+
+resource "kubernetes_secret" "dependabot_mongodb_secrets" {
+  metadata {
+    name      = "depndabot-mongodb-secrets"
+    namespace = kubernetes_namespace.dependabot.metadata[0].name
+  }
+  data = {
     mongodb-passwords             = data.google_secret_manager_secret_version.dependabot_mongodb_passwd.secret_data,
     mongodb-root-password         = data.google_secret_manager_secret_version.dependabot_mongodb_root_passwd.secret_data
   }
-  depends_on = [google_secret_manager_secret.each_secret[5]]
+}
+
+resource "kubernetes_secret" "dependabot_redis_secrets" {
+  metadata {
+    name      = "depndabot-redis-secrets"
+    namespace = kubernetes_namespace.dependabot.metadata[0].name
+  }
+  data = {
+    redis-password             = data.google_secret_manager_secret_version.dependabot_redis_passwd.secret_data
+   
+  }
 }

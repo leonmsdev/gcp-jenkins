@@ -327,9 +327,9 @@ registriesCredentials:
 
 project_registration:
   # -- Project registration mode
-  mode: "manual"
+  mode: "automatic"
   # -- Cron expression of project registration cron job
-  cron: ""
+  cron: "0 8 * * *"
   # -- Allowed namespace expression for projects to register, *deprecated*
   namespace: ""
   # -- Pattern for allowed projects full path name
@@ -358,9 +358,9 @@ redis:
     # -- Redis password
     password: ""
     # -- Redis name of an existing secret to be used (optional, will ignore other password setting when used)
-    existingSecret: "depndabot-config-secrets"
+    existingSecret: "depndabot-redis-secrets"
     # -- Redis name of the key in the existing secret where the password is stored (optional, will only be used when existingSecret is set)
-    existingSecretPasswordKey: "REDIS_PASSWORD"
+    existingSecretPasswordKey: "redis-password"
 
 # ref: https://github.com/bitnami/charts/tree/master/bitnami/mongodb
 mongodb:
@@ -378,7 +378,7 @@ mongodb:
     # -- MongoDB name of an existing secret to be used (optional, will ignore other password setting when used)
     existingSecret: "depndabot-config-secrets"
     # -- MongoDB name of the key in the existing secret where the password is stored (optional, will only be used when existingSecret is set)
-    existingSecretPasswordKey: "MONGODB_PASSWORD"
+    existingSecretPasswordKey: "mongodb-root-password"
   updateStrategy:
     # -- Deploy strategy
     type: Recreate
