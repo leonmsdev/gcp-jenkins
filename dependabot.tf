@@ -22,7 +22,7 @@ data "google_secret_manager_secret_version" "dependabot_mongodb_root_passwd" {
   version = 1
 }
 
-data "google_secret_manager_secret_version" "dependabot_redis_passwd" {
+data "google_secret_manager_secret_version" "dependabot_mongodb_passwd" {
   secret  = "dependabot-mongodb-passwd"
   project = var.gcp_project_id
   version = 1
