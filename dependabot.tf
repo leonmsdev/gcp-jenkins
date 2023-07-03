@@ -1,40 +1,36 @@
-# import {
-#   to = kubernetes_namespace.dependabot
-#   id = "3ebef761-ef77-46ae-86cc-3d12313d0b0b"
-# }
-
-# resource "kubernetes_namespace" "dependabot" {
-#   metadata {
-#     name = "dependabot"
-#   }
-# }
-
-locals {
-  dependabot_secrets = {
-    # Defines 0 - index, 1 - secret version, 2 - the version to use and the kubernetes key name inside the secret.
-    "dependabot-gitlab-access-token" = [0, 1, "token"], # [0 , 1, 2] *The index needs to be +1 if a new secret gets added to the list.
-    "dependabot-github-access-token" = [1, 1, "token"],
-    "dependabot-mongodb-passwd"      = [2, 1, "passwd"],
-    "dependabot-redis-passwd"        = [3, 1, "passwd"]
-  }
+data "google_secret_manager_secret_version" "dependabo_gitlab_access_token" {
+  secret   = "dependabot-gitlab-access-token"
+  project  = var.gcp_project_id
+  version  = 1
 }
 
-data "google_secret_manager_secret_version" "dependabot_secrets" {
-  for_each = local.dependabot_secrets
-  secret   = each.key
+data "google_secret_manager_secret_version" "dependabo_github_access_token" {
+  secret   = "dependabot-github-access-token"
   project  = var.gcp_project_id
-  version  = each.value[1]
+  version  = 1
+}
+
+data "google_secret_manager_secret_version" "dependabot_mongodb_passwd" {
+  secret   = "dependabot-mongodb-passwd"
+  project  = var.gcp_project_id
+  version  = 1
+}
+
+data "google_secret_manager_secret_version" "dependabot_redis_passwd" {
+  secret   = "dependabot-redis-passwd"
+  project  = var.gcp_project_id
+  version  = 1
 }
 
 resource "kubernetes_secret" "dependabot_gitlab_access_token_secret" {
-  for_each = local.dependabot_secrets
-
   metadata {
-    name      = trimprefix(each.key, "dependabot-")
+    name      = "depndabot-config-secrets"
     namespace = "dependabot"
   }
-
   data = {
-    format("%s", each.value[2]) = format("data.google_secret_manager_secret_version.dependabot_secrets[%s].secret_data", each.value[0])
+    SETTINGS__GITLAB_ACCESS_TOKEN = data.google_secret_manager_secret_version.dependabo_gitlab_access_token.secret_data,
+    SETTINGS__GITHUB_ACCESS_TOKEN = data.google_secret_manager_secret_version.dependabo_github_access_token.secret_data,
+    REDIS_PASSWORD = data.google_secret_manager_secret_version.dependabot_redis_passwd.secret_data,
+    MONGODB_PASSWORD = data.google_secret_manager_secret_version.dependabot_mongodb_passwd.secret_data
   }
 }
