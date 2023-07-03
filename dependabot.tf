@@ -1,3 +1,9 @@
+resource "kubernetes_namespace" "dependabot" {
+  metadata {
+    name = "dependabot"
+  }
+}
+
 data "google_secret_manager_secret_version" "dependabo_gitlab_access_token" {
   secret  = "dependabot-gitlab-access-token"
   project = var.gcp_project_id
@@ -22,10 +28,10 @@ data "google_secret_manager_secret_version" "dependabot_redis_passwd" {
   version = 1
 }
 
-resource "kubernetes_secret" "dependabot_gitlab_access_token_secret" {
+resource "kubernetes_secret" "dependabot_config_secrets" {
   metadata {
     name      = "depndabot-config-secrets"
-    namespace = "dependabot"
+    namespace = kubernetes_namespace.dependabot.metadata[0].name
   }
   data = {
     SETTINGS__GITLAB_ACCESS_TOKEN = data.google_secret_manager_secret_version.dependabo_gitlab_access_token.secret_data,
