@@ -44,7 +44,7 @@ resource "kubernetes_secret" "dependabot_config_secrets" {
     SETTINGS__GITHUB_ACCESS_TOKEN = data.google_secret_manager_secret_version.dependabo_github_access_token.secret_data,
     REDIS_PASSWORD                = data.google_secret_manager_secret_version.dependabot_redis_passwd.secret_data,
     MONGODB_PASSWORD              = data.google_secret_manager_secret_version.dependabot_mongodb_passwd.secret_data,
-    MONGODB_ROOT_PASSWORD         = data.google_secret_manager_secret_version.dependabot_mongodb_root_passwd.secret_data
+    mongodb-root-password         = data.google_secret_manager_secret_version.dependabot_mongodb_root_passwd.secret_data
   }
   depends_on = [google_secret_manager_secret.each_secret[5]]
 }
