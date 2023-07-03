@@ -46,4 +46,5 @@ resource "kubernetes_secret" "dependabot_config_secrets" {
     MONGODB_PASSWORD              = data.google_secret_manager_secret_version.dependabot_mongodb_passwd.secret_data,
     MONGODB_ROOT_PASSWORD         = data.google_secret_manager_secret_version.dependabot_mongodb_root_passwd.secret_data
   }
+  depends_on = [google_secret_manager_secret.each_secret[5]]
 }
