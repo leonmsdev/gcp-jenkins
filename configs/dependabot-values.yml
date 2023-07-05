@@ -291,7 +291,7 @@ env:
   # -- Purge update run logs from database after configured time in seconds
   expireRunData: 2629746
   # -- App log level
-  logLevel: "info"
+  logLevel: "debug"
   # -- Enhanced colorized log messages
   logColor: false
   # -- Enable upstream https proxy
@@ -327,9 +327,9 @@ registriesCredentials:
 
 project_registration:
   # -- Project registration mode
-  mode: "automatic"
+  mode: "manual"
   # -- Cron expression of project registration cron job
-  cron: "0 8 * * *"
+  cron: ""
   # -- Allowed namespace expression for projects to register, *deprecated*
   namespace: ""
   # -- Pattern for allowed projects full path name
@@ -356,11 +356,11 @@ redis:
     # -- Enable authentication
     enabled: true
     # -- Redis password
-    password: ""
+    password: "Password1234!"
     # -- Redis name of an existing secret to be used (optional, will ignore other password setting when used)
-    existingSecret: "depndabot-redis-secrets"
+    existingSecret: ""
     # -- Redis name of the key in the existing secret where the password is stored (optional, will only be used when existingSecret is set)
-    existingSecretPasswordKey: "redis-password"
+    existingSecretPasswordKey: ""
 
 # ref: https://github.com/bitnami/charts/tree/master/bitnami/mongodb
 mongodb:
@@ -374,11 +374,11 @@ mongodb:
     # -- MongoDB custom user username
     usernames: ["dependabot-gitlab"]
     # -- MongoDB custom user passwords
-    passwords: [""]
+    passwords: ["TESTPW123"]
     # -- MongoDB name of an existing secret to be used (optional, will ignore other password setting when used)
-    existingSecret: "depndabot-config-secrets"
+    existingSecret: ""
     # -- MongoDB name of the key in the existing secret where the password is stored (optional, will only be used when existingSecret is set)
-    existingSecretPasswordKey: "mongodb-root-password"
+    existingSecretPasswordKey: ""
   updateStrategy:
     # -- Deploy strategy
     type: Recreate

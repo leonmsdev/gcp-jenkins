@@ -43,12 +43,12 @@ resource "google_container_cluster" "worker_cluster" {
     autoscaling_profile = "OPTIMIZE_UTILIZATION"
     resource_limits {
       resource_type = "cpu"
-      minimum       = 1
+      minimum       = 2
       maximum       = 2
     }
     resource_limits {
       resource_type = "memory"
-      minimum       = 1
+      minimum       = 2
       maximum       = 8
     }
   }
