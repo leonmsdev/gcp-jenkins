@@ -60,7 +60,7 @@ resource "kubernetes_secret" "dependabot_mongodb_secrets" {
 
 resource "kubernetes_secret" "dependabot_redis_secrets" {
   metadata {
-    name      = "depndabot-redis"
+    name      = "dependabot-redis"
     namespace = kubernetes_namespace.dependabot.metadata[0].name
   }
   data = {
