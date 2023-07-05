@@ -49,7 +49,7 @@ resource "kubernetes_secret" "dependabot_config_secrets" {
 
 resource "kubernetes_secret" "dependabot_mongodb_secrets" {
   metadata {
-    name      = "depndabot-mongodb-secrets"
+    name      = "dependabot-mongodb"
     namespace = kubernetes_namespace.dependabot.metadata[0].name
   }
   data = {
@@ -60,11 +60,10 @@ resource "kubernetes_secret" "dependabot_mongodb_secrets" {
 
 resource "kubernetes_secret" "dependabot_redis_secrets" {
   metadata {
-    name      = "depndabot-redis-secrets"
+    name      = "depndabot-redis"
     namespace = kubernetes_namespace.dependabot.metadata[0].name
   }
   data = {
     redis-password = data.google_secret_manager_secret_version.dependabot_redis_passwd.secret_data
-
   }
 }
