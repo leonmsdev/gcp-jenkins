@@ -15,7 +15,7 @@ resource "google_container_cluster" "worker_cluster" {
       disabled = true
     }
     horizontal_pod_autoscaling {
-      disabled = true
+      disabled = false
     }
   }
 
@@ -38,25 +38,8 @@ resource "google_container_cluster" "worker_cluster" {
     master_ipv4_cidr_block  = "172.16.0.0/28"
   }
 
-  cluster_autoscaling {
-    enabled             = true
-    autoscaling_profile = "OPTIMIZE_UTILIZATION"
-    resource_limits {
-      resource_type = "cpu"
-      minimum       = 2
-      maximum       = 2
-    }
-    resource_limits {
-      resource_type = "memory"
-      minimum       = 2
-      maximum       = 8
-    }
-  }
-
   monitoring_config {
-
     enable_components = ["SYSTEM_COMPONENTS"]
-
     managed_prometheus {
       enabled = true
     }
