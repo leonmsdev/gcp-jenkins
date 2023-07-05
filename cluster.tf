@@ -45,6 +45,10 @@ resource "google_container_cluster" "worker_cluster" {
     }
   }
 
+  cluster_autoscaling {
+    enabled = false
+  }
+
   # JENKINS use case
   # master_authorized_networks_config {
   #   cidir_blocks {
