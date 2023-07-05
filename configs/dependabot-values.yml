@@ -356,11 +356,11 @@ redis:
     # -- Enable authentication
     enabled: true
     # -- Redis password
-    password: "Password1234!"
+    password: ""
     # -- Redis name of an existing secret to be used (optional, will ignore other password setting when used)
-    existingSecret: ""
+    existingSecret: "dependabot-redis"
     # -- Redis name of the key in the existing secret where the password is stored (optional, will only be used when existingSecret is set)
-    existingSecretPasswordKey: ""
+    existingSecretPasswordKey: "redis-password"
 
 # ref: https://github.com/bitnami/charts/tree/master/bitnami/mongodb
 mongodb:
@@ -374,11 +374,11 @@ mongodb:
     # -- MongoDB custom user username
     usernames: ["dependabot-gitlab"]
     # -- MongoDB custom user passwords
-    passwords: ["TESTPW123"]
+    passwords: [""]
     # -- MongoDB name of an existing secret to be used (optional, will ignore other password setting when used)
-    existingSecret: ""
+    existingSecret: "dependabot-mongodb"
     # -- MongoDB name of the key in the existing secret where the password is stored (optional, will only be used when existingSecret is set)
-    existingSecretPasswordKey: ""
+    existingSecretPasswordKey: "mongodb-passwords"
   updateStrategy:
     # -- Deploy strategy
     type: Recreate
