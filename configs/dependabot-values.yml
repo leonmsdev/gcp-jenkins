@@ -317,7 +317,7 @@ credentials:
   # -- dependabot chart: set a secret name here if you want to manage secrets on your own
   # required keys: [SETTINGS__GITLAB_ACCESS_TOKEN, SECRET_KEY_BASE], optional: [SETTINGS__GITHUB_ACCESS_TOKEN, SETTINGS__GITLAB_AUTH_TOKEN],
   # if `redis.enabled` and `mongodb.enabled` set to false, REDIS_PASSWORD and MONGODB_PASSWORD or MONGODB_URI must be present
-  existingSecret: "depndabot-config-secrets"
+  existingSecret: "dependabot-config-secrets"
 
 # -- Credentials for private registries
 # Example: PRIVATE_DOCKERHUB_TOKEN: token

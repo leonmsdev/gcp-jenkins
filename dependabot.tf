@@ -36,7 +36,7 @@ data "google_secret_manager_secret_version" "dependabot_redis_passwd" {
 
 resource "kubernetes_secret" "dependabot_config_secrets" {
   metadata {
-    name      = "depndabot-config-secrets"
+    name      = "dependabot-config-secrets"
     namespace = kubernetes_namespace.dependabot.metadata[0].name
   }
   data = {
