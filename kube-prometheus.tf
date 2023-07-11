@@ -12,24 +12,28 @@ resource "helm_release" "kube-prometheus" {
   chart      = "kube-prometheus-stack"
 }
 
-# resource "kubernetes_ingress" "grafana" {
-#   metadata {
-#     name = "grafana-ingress"
-#     namespace = kubernetes_namespace.prometheus.metadata[0].name
-#   }
-
-#   spec {
-#     rule {
-#       host = local.dns_name
-#       http {
-#         path {
-#           backend {
-#             service_name = "kube-prometheus-stack-grafana"
-#             service_port = 80
-#           }
-#           path = "/"
-#         }
-#       }
-#     }
-#   }
-# }
+resource "kubernetes_ingress_v1" "grafana" {
+  metadata {
+    name      = "grafana-ingress"
+    namespace = kubernetes_namespace.prometheus.metadata[0].name
+  }
+  spec {
+    ingress_class_name = "nginx"
+    rule {
+      host = "grafana.leonschmidt-cloud.com"
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = "kube-prometheus-stack-grafana"
+              port = {
+                number = 80
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
