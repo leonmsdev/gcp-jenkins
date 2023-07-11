@@ -5,7 +5,7 @@ locals {
 resource "google_dns_managed_zone" "leonschmidt_cloud" {
   name        = local.dns_name
   dns_name    = format("%s.com.", local.dns_name)
-  description = format("%s DNS zone", local.dns_name) 
+  description = format("%s DNS zone", local.dns_name)
 }
 
 data "kubernetes_service" "ext_ingress_nginx" {
