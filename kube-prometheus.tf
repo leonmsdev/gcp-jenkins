@@ -14,8 +14,9 @@ resource "helm_release" "kube-prometheus" {
 
 resource "kubernetes_ingress_v1" "grafana" {
   metadata {
-    name      = "grafana-ingress"
-    namespace = kubernetes_namespace.prometheus.metadata[0].name
+    name        = "grafana-ingress"
+    namespace   = kubernetes_namespace.prometheus.metadata[0].name
+    annotations = { "kubernetes.io/ingress.class" = "nginx" }
   }
   spec {
     ingress_class_name = "nginx"
