@@ -24,7 +24,7 @@ resource "kubernetes_ingress_v1" "grafana" {
       host = "grafana.leonschmidt-cloud.com"
       http {
         path {
-          path = "/*"
+          path      = "/*"
           path_type = "ImplementationSpecific"
           backend {
             service {
