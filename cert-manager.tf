@@ -65,7 +65,7 @@ resource "kubernetes_manifest" "certificate" {
         "kind" = "ClusterIssuer"
         "name" = "letsencrypt"
       }
-      "secretName" = "cert-tls"  
+      "secretName" = "cert-tls"
     }
   }
 }
@@ -87,7 +87,7 @@ resource "kubernetes_manifest" "grafana_certificate" {
         "kind" = "ClusterIssuer"
         "name" = "letsencrypt"
       }
-      "secretName" = "grafana-tls"  
+      "secretName" = "grafana-tls"
     }
   }
 }
