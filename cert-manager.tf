@@ -54,12 +54,12 @@ resource "kubernetes_manifest" "certificate" {
     "kind"       = "Certificate"
     "metadata" = {
       "name"      = "cert-tls"
-      "namespace" = local.ext_entrys[count.index].key
+      "namespace" = keys(local.ext_entrys[count.index])[0]
     }
     "spec" = {
-      "commonName" = format("%s.leonschmidt.cloud", local.ext_entrys[count.index].value)
+      "commonName" = format("%s.leonschmidt.cloud", local.ext_entrys[count.index][keys(local.ext_entrys[count.index])[0]])
       "dnsNames" = [
-        format("%s.leonschmidt.cloud", local.ext_entrys[count.index].value)
+        format("%s.leonschmidt.cloud", local.ext_entrys[count.index][keys(local.ext_entrys[count.index])[0]])
       ]
       "issuerRef" = {
         "kind" = "ClusterIssuer"
