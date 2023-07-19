@@ -71,6 +71,7 @@ controller:
       memory: "256Mi"
     limits:
       cpu: "2000m"
+      
       memory: "4096Mi"
   # Share process namespace to allow sidecar containers to interact with processes in other containers in the same pod
   shareProcessNamespace: false
@@ -441,7 +442,7 @@ controller:
   updateStrategy: {}
 
   ingress:
-    enabled: false
+    enabled: true
     # Override for the default paths that map requests to the backend
     paths: []
     # - backend:
@@ -467,9 +468,9 @@ controller:
     # configures the hostname e.g. jenkins.example.com
     hostName:
     tls:
-    # - secretName: jenkins.cluster.local
-    #   hosts:
-    #     - jenkins.cluster.local
+    - secretName: jenkins-tls
+      hosts:
+        - jenkins.leonschmidt.cloud
 
   # often you want to have your controller all locked down and private
   # but you still want to get webhooks from your SCM
