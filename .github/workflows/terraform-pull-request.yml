@@ -60,7 +60,7 @@ jobs:
         name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v0
         with:
-          workload_identity_provider: projects/766712485593/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          workload_identity_provider: projects/766712485593/locations/global/workloadIdentityPools/github-action-pool/providers/github-provider
           service_account: github-actions@jenkins-389117.iam.gserviceaccount.com
 
       - name: Setup Terraform
