@@ -20,7 +20,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "jenkins-tfstate-collie"
+    bucket = "jenkins-tfstate-lioness"
     prefix = "terraform/state"
   }
 }

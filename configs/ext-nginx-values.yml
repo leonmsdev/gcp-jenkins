@@ -5,7 +5,7 @@ controller:
     use-forwarded-headers: "true"
     proxy-body-size: "0"
   ingressClassResource:
-    name: external-nginx
+    name: nginx
     enabled: true
     default: false
   affinity:

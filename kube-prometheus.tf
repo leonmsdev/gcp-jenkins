@@ -7,35 +7,21 @@ resource "kubernetes_namespace" "prometheus" {
 resource "helm_release" "kube-prometheus" {
   name       = "kube-prometheus-stack"
   namespace  = kubernetes_namespace.prometheus.metadata[0].name
-  version    = "47.0.0"
+  version    = "47.6.1"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
+
+  values = [
+    file("${path.module}/configs/kube-prometheus-stack-values.yml")
+  ]
 }
 
-resource "kubernetes_ingress_v1" "grafana" {
+resource "kubernetes_storage_class_v1" "prometheus" {
   metadata {
-    name        = "grafana-ingress"
-    namespace   = kubernetes_namespace.prometheus.metadata[0].name
-    annotations = { "kubernetes.io/ingress.class" = "nginx" }
+    name = "prometheus-storage-class"
   }
-  spec {
-    ingress_class_name = "nginx"
-    rule {
-      host = "grafana.leonschmidt-cloud.com"
-      http {
-        path {
-          path      = "/*"
-          path_type = "ImplementationSpecific"
-          backend {
-            service {
-              name = "kube-prometheus-stack-grafana"
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-      }
-    }
+  storage_provisioner = "kubernetes.io/gce-pd"
+  parameters = {
+    type = "pd-standard"
   }
 }

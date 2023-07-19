@@ -4,9 +4,9 @@ locals {
 
 resource "google_iam_workload_identity_pool" "github_pool" {
   project                   = var.gcp_project_id
-  display_name              = "GitHub Pool"
-  workload_identity_pool_id = "github-pool"
-  description               = "Identity pool for GitHub deployments"
+  display_name              = "GitHub Action Pool"
+  workload_identity_pool_id = "github-action-pool"
+  description               = "Identity pool for GitHub Action"
 }
 
 resource "google_iam_workload_identity_pool_provider" "github" {
