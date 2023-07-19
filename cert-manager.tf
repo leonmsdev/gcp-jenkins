@@ -53,7 +53,7 @@ resource "kubernetes_manifest" "certificate" {
     "apiVersion" = "cert-manager.io/v1"
     "kind"       = "Certificate"
     "metadata" = {
-      "name"      = "cert-tls"
+      "name"      = format("%s-tls", local.ext_entrys[count.index][keys(local.ext_entrys[count.index])[0]])
       "namespace" = keys(local.ext_entrys[count.index])[0]
     }
     "spec" = {
@@ -65,7 +65,7 @@ resource "kubernetes_manifest" "certificate" {
         "kind" = "ClusterIssuer"
         "name" = "letsencrypt"
       }
-      "secretName" = "cert-tls"
+      "secretName" = format("%s-tls", local.ext_entrys[count.index][keys(local.ext_entrys[count.index])[0]])
     }
   }
 }
