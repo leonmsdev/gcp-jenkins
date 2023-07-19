@@ -17,7 +17,6 @@ resource "helm_release" "cert_manager" {
     name  = "installCRDs"
     value = "true"
   }
-
 }
 
 resource "kubernetes_manifest" "cluster_issuer_letsencrypt" {
@@ -49,17 +48,18 @@ resource "kubernetes_manifest" "cluster_issuer_letsencrypt" {
 }
 
 resource "kubernetes_manifest" "certificate" {
+  count = length(local.ext_entrys)
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
     "kind"       = "Certificate"
     "metadata" = {
       "name"      = "cert-tls"
-      "namespace" = "nginx"
+      "namespace" = local.ext_entrys[count.index].key
     }
     "spec" = {
-      "commonName" = "nginx.leonschmidt.cloud"
+      "commonName" = format("%s.leonschmidt.cloud", local.ext_entrys[count.index].value)
       "dnsNames" = [
-        "nginx.leonschmidt.cloud",
+        format("%s.leonschmidt.cloud", local.ext_entrys[count.index].value)
       ]
       "issuerRef" = {
         "kind" = "ClusterIssuer"
@@ -70,24 +70,24 @@ resource "kubernetes_manifest" "certificate" {
   }
 }
 
-resource "kubernetes_manifest" "grafana_certificate" {
-  manifest = {
-    "apiVersion" = "cert-manager.io/v1"
-    "kind"       = "Certificate"
-    "metadata" = {
-      "name"      = "grafana-tls"
-      "namespace" = "prometheus"
-    }
-    "spec" = {
-      "commonName" = "grafana.leonschmidt.cloud"
-      "dnsNames" = [
-        "grafana.leonschmidt.cloud",
-      ]
-      "issuerRef" = {
-        "kind" = "ClusterIssuer"
-        "name" = "letsencrypt"
-      }
-      "secretName" = "grafana-tls"
-    }
-  }
-}
+# resource "kubernetes_manifest" "grafana_certificate" {
+#   manifest = {
+#     "apiVersion" = "cert-manager.io/v1"
+#     "kind"       = "Certificate"
+#     "metadata" = {
+#       "name"      = "grafana-tls"
+#       "namespace" = "prometheus"
+#     }
+#     "spec" = {
+#       "commonName" = "grafana.leonschmidt.cloud"
+#       "dnsNames" = [
+#         "grafana.leonschmidt.cloud",
+#       ]
+#       "issuerRef" = {
+#         "kind" = "ClusterIssuer"
+#         "name" = "letsencrypt"
+#       }
+#       "secretName" = "grafana-tls"
+#     }
+#   }
+# }
