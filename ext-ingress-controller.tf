@@ -11,7 +11,7 @@ resource "helm_release" "ext_ingress_nginx" {
   namespace  = kubernetes_namespace.ext_ingress_nginx.metadata[0].name
   version    = "4.7.0"
 
-  values = [
+    values = [
     file("${path.module}/configs/ext-nginx-values.yml")
   ]
 }

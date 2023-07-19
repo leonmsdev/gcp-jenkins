@@ -19,10 +19,10 @@ terraform {
     }
   }
 
-  backend "gcs" {
-    bucket = "jenkins-tfstate-collie"
-    prefix = "terraform/state"
-  }
+  # backend "gcs" {
+  #   bucket = "jenkins-tfstate-collie"
+  #   prefix = "terraform/state"
+  # }
 }
 
 provider "google" {
