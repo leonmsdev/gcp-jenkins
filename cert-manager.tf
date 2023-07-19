@@ -17,7 +17,6 @@ resource "helm_release" "cert_manager" {
     name  = "installCRDs"
     value = "true"
   }
-
 }
 
 resource "kubernetes_manifest" "cluster_issuer_letsencrypt" {
@@ -49,45 +48,46 @@ resource "kubernetes_manifest" "cluster_issuer_letsencrypt" {
 }
 
 resource "kubernetes_manifest" "certificate" {
+  count = length(local.ext_entrys)
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
     "kind"       = "Certificate"
     "metadata" = {
-      "name"      = "cert-tls"
-      "namespace" = "nginx"
+      "name"      = format("%s-tls", local.ext_entrys[count.index][keys(local.ext_entrys[count.index])[0]])
+      "namespace" = keys(local.ext_entrys[count.index])[0]
     }
     "spec" = {
-      "commonName" = "nginx.leonschmidt.cloud"
+      "commonName" = format("%s.leonschmidt.cloud", local.ext_entrys[count.index][keys(local.ext_entrys[count.index])[0]])
       "dnsNames" = [
-        "nginx.leonschmidt.cloud",
+        format("%s.leonschmidt.cloud", local.ext_entrys[count.index][keys(local.ext_entrys[count.index])[0]])
       ]
       "issuerRef" = {
         "kind" = "ClusterIssuer"
         "name" = "letsencrypt"
       }
-      "secretName" = "cert-tls"
+      "secretName" = format("%s-tls", local.ext_entrys[count.index][keys(local.ext_entrys[count.index])[0]])
     }
   }
 }
 
-resource "kubernetes_manifest" "grafana_certificate" {
-  manifest = {
-    "apiVersion" = "cert-manager.io/v1"
-    "kind"       = "Certificate"
-    "metadata" = {
-      "name"      = "grafana-tls"
-      "namespace" = "prometheus"
-    }
-    "spec" = {
-      "commonName" = "grafana.leonschmidt.cloud"
-      "dnsNames" = [
-        "grafana.leonschmidt.cloud",
-      ]
-      "issuerRef" = {
-        "kind" = "ClusterIssuer"
-        "name" = "letsencrypt"
-      }
-      "secretName" = "grafana-tls"
-    }
-  }
-}
+# resource "kubernetes_manifest" "grafana_certificate" {
+#   manifest = {
+#     "apiVersion" = "cert-manager.io/v1"
+#     "kind"       = "Certificate"
+#     "metadata" = {
+#       "name"      = "grafana-tls"
+#       "namespace" = "prometheus"
+#     }
+#     "spec" = {
+#       "commonName" = "grafana.leonschmidt.cloud"
+#       "dnsNames" = [
+#         "grafana.leonschmidt.cloud",
+#       ]
+#       "issuerRef" = {
+#         "kind" = "ClusterIssuer"
+#         "name" = "letsencrypt"
+#       }
+#       "secretName" = "grafana-tls"
+#     }
+#   }
+# }

@@ -16,7 +16,7 @@ spec:
   tls:
   - hosts:
     - nginx.leonschmidt.cloud
-    secretName: cert-tls
+    secretName: nginx-tls
   rules:
   - host: nginx.leonschmidt.cloud
     http:
