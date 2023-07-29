@@ -9,5 +9,5 @@ resource "google_artifact_registry_repository" "hochzeitsauto_schwerin" {
   description   = "Holds Docker Builds of hochzeitsauto-schwerin"
   format        = "DOCKER"
 
-  depends_on = [ google_project_service.artifact_registry ]
+  depends_on = [google_project_service.artifact_registry]
 }
