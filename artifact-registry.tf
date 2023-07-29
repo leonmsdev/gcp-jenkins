@@ -4,7 +4,7 @@ resource "google_project_service" "artifact_registry" {
 }
 
 resource "google_artifact_registry_repository" "hochzeitsauto_schwerin" {
-  location      = var.gcp_zone
+  location      = var.gcp_region
   repository_id = "hochzeitsauto-schwerin"
   description   = "Holds Docker Builds of hochzeitsauto-schwerin"
   format        = "DOCKER"
