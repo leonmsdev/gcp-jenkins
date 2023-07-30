@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hochzeitsautoschwerin-ingress
+  namespace: hochzeitsautoschwerin
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+  - hosts:
+    - hochzeitsautoschwerin.de
+    secretName: hochzeitsautoschwerin-tls
+  rules:
+  - host: hochzeitsautoschwerin.de
+    http:
+      paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: hochzeitsautoschwerin-service
+              port:
+                number: 80

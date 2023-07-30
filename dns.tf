@@ -7,12 +7,25 @@ locals {
     { "prometheus" = "grafana" },
     { "jenkins" = "jenkins" },
   ]
+
+  de_dns_zone_name = "hochzeitsautoschwerin"
+  de_dns_domain    = "hochzeitsautoschwerin.de"
+  de_entry = [
+    { "hochzeitsautoschwerin" = "hochzeitsautoschwerin" },
+  ]
 }
 
 resource "google_dns_managed_zone" "leonschmidt_cloud" {
   name        = format("%s-cloud", local.dns_zone_name)
   dns_name    = format("%s.cloud.", local.dns_zone_name)
   description = format("%s DNS zone", local.dns_domain)
+}
+
+#hochzeitsautoschwerin
+resource "google_dns_managed_zone" "hochzeitsautoschwerin" {
+  name        = format("%s-cloud", local.de_dns_zone_name)
+  dns_name    = format("%s.cloud.", local.de_dns_zone_name)
+  description = format("%s DNS zone", local.de_dns_domain)
 }
 
 data "kubernetes_service" "ext_ingress_nginx" {
@@ -29,6 +42,17 @@ resource "google_dns_record_set" "a_records_leonschmidt_cloud" {
   ttl   = 300
 
   managed_zone = google_dns_managed_zone.leonschmidt_cloud.name
+
+  rrdatas = [data.kubernetes_service.ext_ingress_nginx.status[0].load_balancer[0].ingress[0].ip]
+}
+
+#hochzeitsautoschwerin
+resource "google_dns_record_set" "a_record_hochzeitsautoschwerin" {
+  name = local.de_dns_domain
+  type = "A"
+  ttl  = 300
+
+  managed_zone = google_dns_managed_zone.hochzeitsautoschwerin.name
 
   rrdatas = [data.kubernetes_service.ext_ingress_nginx.status[0].load_balancer[0].ingress[0].ip]
 }
