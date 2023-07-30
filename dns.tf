@@ -48,7 +48,7 @@ resource "google_dns_record_set" "a_records_leonschmidt_cloud" {
 
 #hochzeitsautoschwerin
 resource "google_dns_record_set" "a_record_hochzeitsautoschwerin" {
-  name = local.de_dns_domain
+  name = format("%s.", local.de_dns_domain)
   type = "A"
   ttl  = 300
 
