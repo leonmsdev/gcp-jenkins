@@ -70,6 +70,28 @@ resource "kubernetes_manifest" "certificate" {
   }
 }
 
+resource "kubernetes_manifest" "hochzeitsautoschwerin_certificate" {
+  manifest = {
+    "apiVersion" = "cert-manager.io/v1"
+    "kind"       = "Certificate"
+    "metadata" = {
+      "name"      = "hochzeitsautoschwerin-tls"
+      "namespace" = "hochzeitsautoschwerin"
+    }
+    "spec" = {
+      "commonName" = "hochzeitsautoschwerin.de"
+      "dnsNames" = [
+        "hochzeitsautoschwerin.de"
+      ]
+      "issuerRef" = {
+        "kind" = "ClusterIssuer"
+        "name" = "letsencrypt"
+      }
+      "secretName" = "hochzeitsautoschwerin-tls"
+    }
+  }
+}
+
 # resource "kubernetes_manifest" "grafana_certificate" {
 #   manifest = {
 #     "apiVersion" = "cert-manager.io/v1"
