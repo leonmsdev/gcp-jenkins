@@ -23,8 +23,8 @@ resource "google_dns_managed_zone" "leonschmidt_cloud" {
 
 #hochzeitsautoschwerin
 resource "google_dns_managed_zone" "hochzeitsautoschwerin" {
-  name        = format("%s-cloud", local.de_dns_zone_name)
-  dns_name    = format("%s.cloud.", local.de_dns_zone_name)
+  name        = format("%s-de", local.de_dns_zone_name)
+  dns_name    = format("%s.de.", local.de_dns_zone_name)
   description = format("%s DNS zone", local.de_dns_domain)
 }
 
