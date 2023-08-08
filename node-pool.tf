@@ -1,7 +1,3 @@
-resource "google_service_account" "kubernets" {
-  account_id = "kubernetes"
-}
-
 resource "google_container_node_pool" "main_workload" {
   name       = "main-workload"
   cluster    = google_container_cluster.worker_cluster.id
@@ -20,7 +16,6 @@ resource "google_container_node_pool" "main_workload" {
     disk_size_gb = 50
     disk_type    = "pd-standard"
 
-    service_account = google_service_account.kubernets.email
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
