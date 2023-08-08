@@ -16,6 +16,7 @@ resource "google_container_node_pool" "main_workload" {
     disk_size_gb = 50
     disk_type    = "pd-standard"
 
+    service_account = "766712485593-compute@developer.gserviceaccount.com"
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
